@@ -18,13 +18,12 @@ import { AppType } from '../../models/appTypes/appType';
 })
 export class AddApplicationComponent {
 
-  // Utilisation de l'énumération pour définir la valeur par défaut et les options du type
   applicationForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    type: new FormControl(AppType.Professionnel, Validators.required),  // Valeur par défaut définie par l'enum
+    type: new FormControl(AppType.Professionnel, Validators.required),
   });
 
-  appTypeEnum = AppType;  // Ajouter une référence à l'énumération pour l'afficher dans le template
+  appTypeEnum = AppType;
 
   setAppType(type: AppType) {
     this.applicationForm.get('type')?.setValue(type);

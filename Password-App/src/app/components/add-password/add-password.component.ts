@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Application } from '../../models/applications/application';
+import { PasswordsService } from '../../services/passwords-service/passwords.service';
+import { Password } from '../../models/passwords/password';
 
 @Component({
   selector: 'app-add-password',
@@ -16,6 +18,12 @@ import { Application } from '../../models/applications/application';
   styleUrls: ['./add-password.component.scss']
 })
 export class AddPasswordComponent {
+
+  constructor(
+    private passwordsService: PasswordsService
+  )
+  {}
+
   AppList: Application[] = [
     {application_id:1, application_name: "Youtube", application_type: 1},
     {application_id:2, application_name: "Google", application_type: 1},
@@ -35,8 +43,20 @@ export class AddPasswordComponent {
   onSubmit() {
     if (this.passwordForm.valid) {
       console.log('Formulaire soumis avec succès', this.passwordForm.value);
+  
+      const password = new Password(
+        0,
+        this.passwordForm.get('password')?.value || ''
+      );
+  
+      this.passwordsService.addPassword(password).subscribe({
+        next: () => console.log('Mot de passe ajouté avec succès'),
+        error: (err: any) => console.error('Erreur lors de l\'ajout du mot de passe', err),
+      });
+  
     } else {
       console.log('Le formulaire est invalide');
     }
   }
+  
 }

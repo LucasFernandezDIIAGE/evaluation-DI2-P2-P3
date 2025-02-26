@@ -22,13 +22,17 @@ export class PasswordListComponent {
   private modalService = inject(NgbModal)
   
     PasswordsList: Password[] = [
-        {password_id:1, password_value: "Azerty123"},
-        {password_id:2, password_value: "Azerty123"},
-        {password_id:3, password_value: "Azerty123"},
+        {Id:1, EncryptedValue: "Azerty123"},
+        {Id:2, EncryptedValue: "Azerty123"},
+        {Id:3, EncryptedValue: "Azerty123"},
       ];
   
   
       openLg(content: TemplateRef<any>) {
         this.modalService.open(content, { size: 'lg' });
+      }
+
+      addPassword(password: Password) {
+        
       }
 }

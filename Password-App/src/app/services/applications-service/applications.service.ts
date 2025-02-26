@@ -25,7 +25,12 @@ export class ApplicationsService {
       ))
       )
     )
+  }
 
+  addApplication(application: Application){
+    const apiUrl = this.environmentsService.apiUrl;
+
+    return this.http.post(`${apiUrl}/applications`, application);
   }
   
 }

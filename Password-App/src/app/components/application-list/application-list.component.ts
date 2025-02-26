@@ -1,9 +1,10 @@
-import { Component, inject, TemplateRef } from '@angular/core';
+import { Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { Application } from '../../models/applications/application';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AddApplicationComponent } from '../add-application/add-application.component';
+import { ApplicationsService } from '../../services/applications-service/applications.service';
 
 @Component({
   selector: 'app-application-list',
@@ -17,16 +18,31 @@ import { AddApplicationComponent } from '../add-application/add-application.comp
   templateUrl: './application-list.component.html',
   styleUrl: './application-list.component.scss'
 })
-export class ApplicationListComponent {
+export class ApplicationListComponent implements OnInit {
+  
+  AppList: Application[] = []
+
+
+  constructor(
+    private applicationsService: ApplicationsService
+  ) {}
 
   private modalService = inject(NgbModal)
 
-  AppList: Application[] = [
-      {application_id:1, application_name: "Youtube", application_type:0},
-      {application_id:2, application_name: "Google", application_type:1},
-      {application_id:3, application_name: "Destiny2", application_type:0},
-    ];
+  ngOnInit(): void {
+    this.getApplications();
+  }
 
+  getApplications(): void {
+    this.applicationsService.getApplications().subscribe(
+      (data: Application[]) => {
+        this.AppList = data;  // Mise à jour de AppList après récupération des données
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des applications:', error);
+      }
+    );
+  }
 
     openLg(content: TemplateRef<any>) {
       this.modalService.open(content, { size: 'lg' });
