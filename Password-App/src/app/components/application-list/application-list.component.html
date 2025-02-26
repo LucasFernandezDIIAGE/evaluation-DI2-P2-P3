@@ -1,1 +1,34 @@
-<p>application-list works!</p>
+<div class="container">
+    <div class="first-row">
+        <button class="btn btn-outline-primary mb-2 me-2" (click)="openLg(content)">+</button>
+    </div>
+    <div class="second-row">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let application of AppList">
+                <td>{{ application.application_id }}</td>
+                <td>{{ application.application_name }}</td>
+                <td>{{ application.application_type }}</td>
+            </tr>
+        </tbody>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <app-add-application></app-add-application>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>

@@ -1,0 +1,14 @@
+.main{
+    width: 100%;
+}
+.content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+app-navbar{
+    width: 100%;
+}
+router-outlet{
+    width: 100%;
+}
