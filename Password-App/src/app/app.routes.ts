@@ -7,5 +7,6 @@ export const routes: Routes = [
     { path: '', component: ApplicationListComponent },
     { path: 'applications', component: ApplicationListComponent },
     { path: 'passwords', component: PasswordListComponent },
+    { path: 'passwords/:appId', component: PasswordListComponent },
 
 ];

@@ -1,22 +1,18 @@
 <div class="container">
     <div class="first-row">
-        <button class="btn btn-outline-primary mb-2 me-2" (click)="openLg(content)">+</button>
+        <button class="btn btn-outline-primary mb-2 me-2" (click)="openLg(content)">Nouvelle application</button>
     </div>
-    <div class="second-row">
-        <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let application of AppList">
-                <td>{{ application.application_id }}</td>
-                <td>{{ application.application_name }}</td>
-                <td>{{ application.application_type }}</td>
-            </tr>
-        </tbody>
+    <div class="second-row row">
+        <div class="col-md-4" *ngFor="let application of AppList">
+            <div class="card mb-4" routerLink='/passwords/{{application.id}}' style="cursor: pointer;">
+                <div class="card-header">
+                    {{ application.name }}
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{application.type===0?'Grand Public': 'Professionnel'}}</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

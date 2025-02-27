@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Application } from '../../models/applications/application';
 import { AppType } from '../../models/appTypes/appType';
+import { ApplicationsService } from '../../services/applications-service/applications.service';
 
 @Component({
   selector: 'app-add-application',
@@ -18,6 +19,10 @@ import { AppType } from '../../models/appTypes/appType';
 })
 export class AddApplicationComponent {
 
+  constructor(
+    private applicationsService: ApplicationsService
+  ) {}
+
   applicationForm = new FormGroup({
     name: new FormControl('', Validators.required),
     type: new FormControl(AppType.Professionnel, Validators.required),
@@ -30,10 +35,13 @@ export class AddApplicationComponent {
   }
 
   onSubmit() {
-    if (this.applicationForm.valid) {
-      console.log('Formulaire soumis avec succès', this.applicationForm.value);
-    } else {
-      console.log('Le formulaire est invalide');
-    }
-  }
+    var application: Application = {
+      id: 0,
+      name: this.applicationForm.get('name')?.value || '',
+      type: this.applicationForm.get('type')?.value || AppType.Professionnel
+    };
+    this.applicationsService.addApplication(application).subscribe({
+      next: () => console.log('Application ajoutée avec succès'),
+  })
+}
 }

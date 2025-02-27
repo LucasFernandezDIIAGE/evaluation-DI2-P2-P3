@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class EnvironmentService {
 
-  apiUrl: string = 'http://localhost:7213/api';
+  apiUrl: string = 'https://localhost:7213/api';
 
   private readonly apiKey: string = "";
 

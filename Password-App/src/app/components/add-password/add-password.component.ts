@@ -1,10 +1,11 @@
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Application } from '../../models/applications/application';
 import { PasswordsService } from '../../services/passwords-service/passwords.service';
 import { Password } from '../../models/passwords/password';
+import { ApplicationsService } from '../../services/applications-service/applications.service';
 
 @Component({
   selector: 'app-add-password',
@@ -17,27 +18,39 @@ import { Password } from '../../models/passwords/password';
   templateUrl: './add-password.component.html',
   styleUrls: ['./add-password.component.scss']
 })
-export class AddPasswordComponent {
+export class AddPasswordComponent implements OnInit {
 
+  AppList: Application[] = []
   constructor(
-    private passwordsService: PasswordsService
+    private passwordsService: PasswordsService,
+    private applicationsService: ApplicationsService
   )
   {}
 
-  AppList: Application[] = [
-    {application_id:1, application_name: "Youtube", application_type: 1},
-    {application_id:2, application_name: "Google", application_type: 1},
-    {application_id:3, application_name: "Destiny2", application_type: 1},
-  ];
+  ngOnInit(): void {
+    this.getApplications();
+  }
+
+  getApplications(): void {
+    this.applicationsService.getApplications().subscribe(
+      (data: Application[]) => {
+        this.AppList = data;
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des applications:', error);
+      }
+    );
+  }
+  
 
   passwordForm = new FormGroup({
     accountName: new FormControl('', Validators.required),
-    appSelector: new FormControl('', Validators.required),
+    applicationId: new FormControl('', Validators.required),
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
   });
 
   setAppSelector(application: Application) {
-    this.passwordForm.get('appSelector')?.setValue(application.application_id.toString());
+    this.passwordForm.get('applicationId')?.setValue(application.id.toString());
   }
 
   onSubmit() {
@@ -46,7 +59,9 @@ export class AddPasswordComponent {
   
       const password = new Password(
         0,
-        this.passwordForm.get('password')?.value || ''
+        this.passwordForm.get('password')?.value || '',
+        this.passwordForm.get('accountName')?.value || '',
+        Number(this.passwordForm.get('applicationId')?.value || ''),
       );
   
       this.passwordsService.addPassword(password).subscribe({

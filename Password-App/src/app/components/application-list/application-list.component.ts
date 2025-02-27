@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AddApplicationComponent } from '../add-application/add-application.component';
 import { ApplicationsService } from '../../services/applications-service/applications.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-application-list',
@@ -13,7 +14,8 @@ import { ApplicationsService } from '../../services/applications-service/applica
     NgbDropdownModule,
     ReactiveFormsModule,
     CommonModule,
-    AddApplicationComponent
+    AddApplicationComponent,
+    RouterLink
   ],
   templateUrl: './application-list.component.html',
   styleUrl: './application-list.component.scss'
@@ -36,7 +38,7 @@ export class ApplicationListComponent implements OnInit {
   getApplications(): void {
     this.applicationsService.getApplications().subscribe(
       (data: Application[]) => {
-        this.AppList = data;  // Mise à jour de AppList après récupération des données
+        this.AppList = data;
       },
       (error) => {
         console.error('Erreur lors de la récupération des applications:', error);

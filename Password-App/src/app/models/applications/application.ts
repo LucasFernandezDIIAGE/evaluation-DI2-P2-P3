@@ -1,11 +1,11 @@
 export class Application {
-    application_id: number;
-    application_name: string;
-    application_type: number;
+    id: number;
+    name: string;
+    type: number;
 
-    constructor(application_id: number, application_name: string, application_type: number) {
-        this.application_id = application_id;
-        this.application_name = application_name;
-        this.application_type = application_type;
+    constructor(id: number, name: string, type: number) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
     }
 }

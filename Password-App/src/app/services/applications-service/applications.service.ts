@@ -19,10 +19,23 @@ export class ApplicationsService {
 
     return this.http.get<any[]>(`${apiUrl}/applications`).pipe(
       map(data => data.map(application => new Application(
-        application.application_id,
-        application.application_name,
-        application.application_type
+        application.id,
+        application.name,
+        application.type
       ))
+      )
+    )
+  }
+
+  getApplicationById(id: number){
+    const apiUrl = this.environmentsService.apiUrl;
+
+    return this.http.get<any>(`${apiUrl}/applications/${id}`).pipe(
+      map(application => new Application(
+        application.id,
+        application.name,
+        application.type
+      )
       )
     )
   }
